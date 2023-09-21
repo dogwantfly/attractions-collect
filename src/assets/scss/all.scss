@@ -1,0 +1,12 @@
+// Functions first
+@import "bootstrap/scss/functions";
+
+// Required Bootstrap imports
+@import "./helpers/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+@import "bootstrap/scss/bootstrap";
+@import "./custom";
