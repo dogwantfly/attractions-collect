@@ -1,7 +1,11 @@
 
-import {Link} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteAttraction, getAttractions } from './apis';
+import { useEffect, useCallback, useState } from 'react';
+
 const Dashboard = () => {
-  const attractionsList = [
+  const navigate = useNavigate();
+  const [attractionsList, setAttractionsList ] = useState([
 
     {
       "id": 1,
@@ -30,7 +34,42 @@ const Dashboard = () => {
     }
 
 
-  ]
+  ])
+
+  const getData = useCallback( async () => {
+    try {
+      const res = await getAttractions();
+      
+      setAttractionsList(res.data)
+    } catch (err) {
+      alert(err.response.data);
+      if (err.response.status) {
+        navigate('/login');
+      }
+    }
+   
+  },[setAttractionsList, navigate])
+
+  useEffect(() => {
+    getData()
+  },[getData])
+
+  const handleDelete = async (id) => {
+    
+    try {
+      const res = await deleteAttraction(id);
+      if (res.status >= 200) {
+        alert('刪除成功')
+        getData();
+      }
+      
+      
+    } catch (err) {
+      alert(err.response.data)
+    }
+    
+  }
+
   return (
     <table className="table table-hover">
       <thead className='table-dark'>
@@ -42,15 +81,21 @@ const Dashboard = () => {
         </tr>
       </thead>
       <tbody>
-        {attractionsList.map(attraction => (
+        {attractionsList.map((attraction, i) => (
           <tr key={attraction.id}>
-            <th scope="row">{attraction.id}</th>
+            <th scope="row">{i + 1}</th>
             <td>{attraction.name}</td>
             <td>{attraction.description}</td>
             <td>
               <div className="btn-group" role="group" aria-label="Basic outlined example">
-                <Link to="/admin/attraction" className="btn btn-outline-primary">編輯</Link>
-                <button type="button" className="btn btn-outline-danger">刪除</button>
+                <Link to="/admin/attraction" className="btn btn-outline-primary" state={{
+                  type: 'edit',
+                  viewId: attraction.id,
+                  attraction
+                }}>
+                  編輯
+                </Link>
+                <button type="button" className="btn btn-outline-danger" onClick={() => handleDelete(attraction.id)}>刪除</button>
               </div>
             </td>
           </tr>
