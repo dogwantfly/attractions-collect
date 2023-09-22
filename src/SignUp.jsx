@@ -21,8 +21,6 @@ const SignUp = () => {
     }));
   };
 
-
-
   const {
     register,
     handleSubmit,
@@ -32,45 +30,34 @@ const SignUp = () => {
     mode: "all",
   });
 
-
-  const onSubmit = async(data) => {
-
-
+  const onSubmit = async (data) => {
 
     signUp({
       email: data.email,
       password: data.password
     })
-
       .then(function (response) {
         if (response.status === 201) {
-          
+          const { accessToken, user } = response.data;
 
-          const { accessToken } = response.data;
-          
           if (accessToken) {
             document.cookie = `accessToken=${accessToken};expires=${new Date(
               new Date().getTime() + 1000 * 3600
             )}`;
+            document.cookie = `userId=${user.id};`;
           }
           setTimeout(() => {
-            navigate("/login");
-
+            navigate("/");
           }, 0);
-         
         }
       })
       .catch(function (error) {
-        
         alert(error.response.data)
       });
   };
 
-
   return (
     <div className="container mt-5">
-
-
       <form
         className="col-lg-6 col-md-10 mx-auto bg-light bg-opacity-25 p-4 mb-5"
         onSubmit={handleSubmit(onSubmit)}>
@@ -96,7 +83,6 @@ const SignUp = () => {
                 message:
                   "請提供正確 Email 格式",
               },
-
               onChange: handleChange("email"),
             })}
             required
@@ -125,7 +111,6 @@ const SignUp = () => {
                 onChange: handleChange("password"),
               })}
             />
-
           </div>
           <span className="text-danger text-pre-line">
             {errors.password?.message}
@@ -150,7 +135,6 @@ const SignUp = () => {
                   message:
                     "至少需 6 碼",
                 },
-
                 validate: (val) => {
                   if (val !== watch("password"))
                     return "密碼不一致";

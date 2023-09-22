@@ -1,6 +1,9 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
+
 const Layout = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
   const token = document.cookie.replace(
     /(?:(?:^|.*;\s*)accessToken\s*=\s*([^;]*).*$)|^.*$/,
     "$1"
@@ -9,23 +12,23 @@ const Layout = () => {
     /(?:(?:^|.*;\s*)role\s*=\s*([^;]*).*$)|^.*$/,
     "$1"
   );
+
   const handleLogOut = () => {
     document.cookie = `accessToken=;`
     document.cookie = `userId=;`
     document.cookie = `role=;`
     navigate('/login');
   }
+
   return (
     <>
       <nav className="navbar bg-body-tertiary">
         <div className="container">
           <span className="navbar-brand mb-0 h1">Logo</span>
           <div className='d-flex'>
-            <Link to="/" className='btn btn-outline-primary me-3'>回到首頁</Link>
+            {location.pathname !== '/' && <Link to="/" className='btn btn-outline-primary me-3'>回到首頁</Link>}
             {role === 'admin'  && (
-              <>
                 <Link to="/admin" className='btn btn-outline-primary me-3'>回到後台</Link>
-              </>
             )}
             {token && (
               <Link to="/collects" className='btn btn-outline-primary me-3'>查看收藏</Link>
@@ -35,8 +38,6 @@ const Layout = () => {
                 <Link to="/login" className='btn btn-outline-primary me-3'>登入</Link>
                 <Link to="/sign_up" className='btn btn-primary'>註冊</Link>
               </>)}
-
-
           </div>
         </div>
       </nav>
@@ -46,4 +47,5 @@ const Layout = () => {
     </>
   );
 };
+
 export default Layout;

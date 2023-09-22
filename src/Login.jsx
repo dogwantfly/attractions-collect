@@ -1,42 +1,35 @@
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom";
 import { login } from './apis';
+
 const Login = () => {
   const navigate = useNavigate();
-  // const [data, setData] = useState({
-  //   email: "",
-  //   password: "",
-  // });
+
   const {
     register,
     handleSubmit,
-    // watch,
     formState: { errors },
   } = useForm({ mode: "onTouched" })
+
   const onSubmit = async (data) => {
-    
     try {
       const res = await login(data);
       const { accessToken, user } = res.data;
-      
       if (accessToken) {
         document.cookie = `accessToken=${accessToken};`;
         document.cookie = `userId=${user.id};`;
-        if(user.role === 'admin') {
+        if (user.role === 'admin') {
           document.cookie = `role=${user.role};`;
           navigate('/admin');
         } else {
           navigate('/');
         }
       }
-      
     } catch (err) {
-      
       alert(err.response.data)
     }
-
-
   }
+
   return (
     <div className="row pt-5">
       <div className="col-lg-6 mx-auto">
@@ -56,12 +49,11 @@ const Login = () => {
               至少需 6 碼
             </div>}
           </div>
-
           <button type="submit" className="btn btn-primary">登入</button>
         </form>
       </div>
     </div>
-
   );
 };
+
 export default Login;

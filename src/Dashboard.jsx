@@ -6,7 +6,6 @@ import { useEffect, useCallback, useState } from 'react';
 const Dashboard = () => {
   const navigate = useNavigate();
   const [attractionsList, setAttractionsList ] = useState([
-
     {
       "id": 1,
       "name": "阿拉伯博物館",
@@ -21,25 +20,12 @@ const Dashboard = () => {
       "id": 3,
       "name": "東北角暨宜蘭海岸國家風景區",
       "description": "東北角暨宜蘭海岸國家風景區位於宜蘭縣，擁有壯觀的海岸線、火山地形和多樣的生態。適合健行和觀賞海景。"
-    },
-    {
-      "id": 4,
-      "name": "日月光中心",
-      "description": "日月光中心是台中市的大型購物中心，擁有眾多國際品牌、餐廳和娛樂設施。這裡是購物和娛樂的好去處。"
-    },
-    {
-      "id": 5,
-      "name": "澎湖縣",
-      "description": "澎湖縣是台灣的離島之一，以美麗的沙灘、潛水點和海鮮美食而聞名。您可以在這裡享受陽光和海灘。"
     }
-
-
   ])
 
   const getData = useCallback( async () => {
     try {
       const res = await getAttractions();
-      
       setAttractionsList(res.data)
     } catch (err) {
       alert(err.response.data);
@@ -47,7 +33,6 @@ const Dashboard = () => {
         navigate('/login');
       }
     }
-   
   },[setAttractionsList, navigate])
 
   useEffect(() => {
@@ -55,19 +40,15 @@ const Dashboard = () => {
   },[getData])
 
   const handleDelete = async (id) => {
-    
     try {
       const res = await deleteAttraction(id);
       if (res.status >= 200) {
         alert('刪除成功')
         getData();
       }
-      
-      
     } catch (err) {
       alert(err.response.data)
     }
-    
   }
 
   return (
@@ -100,9 +81,9 @@ const Dashboard = () => {
             </td>
           </tr>
         ))}
-       
       </tbody>
     </table>
   );
 };
+
 export default Dashboard;

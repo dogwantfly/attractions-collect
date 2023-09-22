@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { addAttraction, editAttraction } from './apis';
 
 const AdminAttraction = () => {
-  
   const navigate = useNavigate();
   const { state } = useLocation();
+
   const role =  document.cookie.replace(
     /(?:(?:^|.*;\s*)role\s*=\s*([^;]*).*$)|^.*$/,
     "$1"
@@ -24,12 +24,10 @@ const AdminAttraction = () => {
     defaultValues: state.type === 'edit' ? state.attraction : {
       name: '',
       description: ''
-    },
-
+    }
   })
   
   const onSubmit = async (data) => {
-    
     if (role !== 'admin') {
       alert('您沒有操作權限')
       return;
@@ -52,17 +50,13 @@ const AdminAttraction = () => {
         navigate('/admin')
       }
     } catch (err) {
-      
       alert(err.response.data)
       if (err.response.status === 401) {
         navigate('/login');
       }
     }
-
-
   }
 
- 
   return (
     <div className="row pt-5">
       <div className="col-lg-6 mx-auto">
@@ -76,14 +70,11 @@ const AdminAttraction = () => {
             <label htmlFor="title" className="form-label">標題</label>
             <input
               type="text"
-              
               className={`form-control ${errors.name && 'is-invalid'}`}
               id="title" 
               required {...register("name", {
-                 required: true, 
-                 
+                required: true, 
               })}
-              
             />
             {errors.name && <div className="invalid-feedback">
               請填寫標題
@@ -92,13 +83,11 @@ const AdminAttraction = () => {
           <div className="mb-3">
             <label htmlFor="description" className="form-label">內文</label>
             <input
-             type="description"
-             
-             className={`form-control ${errors.description && 'is-invalid'}`}
-             id="description"
-             required {...register("description", {
+              type="description"
+              className={`form-control ${errors.description && 'is-invalid'}`}
+              id="description"
+              required {...register("description", {
               required: true,
-              
             })}/>
             {errors.description && <div className="invalid-feedback">
               請填寫內文

@@ -22,9 +22,9 @@ function App() {
           <Route path="/collects" element={<Collects />}></Route>
         </Route>
         <Route path='/admin' element={<Admin />}>
-            <Route index element={<Dashboard />}></Route>
-            <Route path='attraction' element={<AdminAttraction />}></Route>
-          </Route>
+          <Route index element={<Dashboard />}></Route>
+          <Route path='attraction' element={<AdminAttraction />}></Route>
+        </Route>
       </Routes>
     </HashRouter>
 

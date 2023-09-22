@@ -16,8 +16,10 @@ const AttractionCard = ({ attraction, collect }) => {
     </li>
   );
 };
+
 AttractionCard.propTypes = {
   attraction: PropTypes.object,
   collect: PropTypes.object
 }
+
 export default AttractionCard;

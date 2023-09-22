@@ -33,9 +33,7 @@ const Attraction = () => {
       });
       const collects = await getCollects(userId);
       setCollects(collects.data);
-
     } catch (error) {
-      
       alert(error.response.data);
     }
   }
@@ -49,13 +47,11 @@ const Attraction = () => {
       }
       setAttraction(res.data)
     } catch (err) {
-      
       alert(err.response.data);
       if (err.response.status === 401) {
         navigate('/login');
       }
     }
-
   }, [setAttraction, navigate, id, userId, token])
 
   useEffect(() => {
@@ -68,19 +64,17 @@ const Attraction = () => {
       const collects = await getCollects(userId);
       setCollects(collects.data);
     } catch (err) {
-      
       alert(err.response.data);
       if (err.response.status === 401) {
         navigate('/login');
       }
     }
-
   }, [navigate, userId])
 
-  const collectId = useMemo(() => 
-    collects.length > 0 
-     ? collects.find(item => item.viewId == id)?.id : '' ,[collects, id])
-  
+  const collectId = useMemo(() =>
+    collects.length > 0
+      ? collects.find(item => item.viewId == id)?.id : '', [collects, id])
+
   return (
     <section>
       <h2 className='h3'>{attraction.name}</h2>
@@ -88,18 +82,16 @@ const Attraction = () => {
         {attraction.description}
       </p>
       {token && collects.length > 0 && collects.map(item => item.viewId).includes(id) ? (
-        <button type="button" className='btn btn-primary' onClick={() => handleDeleteCollect(collectId)}>
+        <button type="button" className='btn btn-outline-primary' onClick={() => handleDeleteCollect(collectId)}>
           取消收藏
         </button>
-
       ) : (
-        token && !collects.length && (
+        token && (!collects.length || !collects.map(item => item.viewId).includes(id)) && (
           <button type="button" className='btn btn-primary' onClick={handleCollect}>
             收藏
           </button>
         )
       )}
-      
     </section>
   );
 };

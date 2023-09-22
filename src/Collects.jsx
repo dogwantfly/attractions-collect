@@ -37,6 +37,7 @@ const Collects = () => {
       "description": "東北角暨宜蘭海岸國家風景區位於宜蘭縣，擁有壯觀的海岸線、火山地形和多樣的生態。適合健行和觀賞海景。"
     }
   ])
+
   const getData = useCallback( async () => {
     try {
       const res = await getCollects(userId);
@@ -65,4 +66,5 @@ const Collects = () => {
     </>
   );
 };
+
 export default Collects;
